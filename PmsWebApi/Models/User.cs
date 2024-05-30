@@ -8,8 +8,6 @@ namespace PmsWebApi.Models
 {
     public class User: IdentityUser
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id;
 
         [Required]
         [MaxLength(255)]
@@ -19,5 +17,8 @@ namespace PmsWebApi.Models
         [Required]
         public Boolean isDoctor {  get; set; }
         public string? Specialization { get; set; }
+
+        public ICollection<Appointment> DoctorAppointments { get; set; } = new List<Appointment>();
+        public ICollection<Appointment> PatientAppointments { get; set; } = new List<Appointment>();
     }
 }

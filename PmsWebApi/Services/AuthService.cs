@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using PmsWebApi.Models;
 using System.IdentityModel.Tokens.Jwt;
@@ -35,7 +36,7 @@ namespace PmsWebApi.Services
             var claims = new[]
             {
                 new Claim("Email", User.Email),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim("Name", user.Name)
             };
 
@@ -55,6 +56,26 @@ namespace PmsWebApi.Services
             var result = await _userManager.CreateAsync(user, User.Password);
 
             return result;
+        }
+
+        public async Task<string> GetUserId(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var SecretKey = _config["Jwt:Key"];
+            var key = Encoding.ASCII.GetBytes(SecretKey);
+
+            tokenHandler.ValidateToken(token, new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ClockSkew = TimeSpan.Zero
+            }, out SecurityToken validatedToken);
+
+            var jwtToken = (JwtSecurityToken)validatedToken;
+            var user =  jwtToken.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            return user;
         }
     }
 }

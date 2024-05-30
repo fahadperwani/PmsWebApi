@@ -9,5 +9,7 @@ namespace PmsWebApi.Services
         Task<IdentityResult> RegisterUser(Registration User);
 
         Task<string> LoginUser(Login User);
+
+        Task<string> GetUserId(string token);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PmsWebApi.Models;
 using PmsWebApi.Services;
@@ -6,6 +7,7 @@ using PmsWebApi.Services;
 namespace PmsWebApi.Controllers
 {
     [Route("api/user")]
+    [EnableCors]
     [ApiController]
     public class UserController : ControllerBase
     {

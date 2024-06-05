@@ -24,6 +24,10 @@ namespace PmsWebApi.Models
         [GreaterThanToday]
         public DateTime Time { get; set; }
 
+        public int? RecordId { get; set; }
+
+        public Record? Record { get; set; }
+
 
         public class GreaterThanTodayAttribute : ValidationAttribute
         {

@@ -12,11 +12,13 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using PmsWebApi.Services;
+using Microsoft.AspNetCore.Cors;
 
 namespace PmsWebApi.Controllers
 {
     [Route("api/appointment")]
     [ApiController]
+    [EnableCors]
     [Authorize]
     public class AppointmentController : ControllerBase
     {
